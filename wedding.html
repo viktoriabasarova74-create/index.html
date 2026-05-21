@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#e07a5f">
+  <title>Данил & Татьяна | Приглашение на свадьбу</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, 'Georgia', 'Times New Roman', 'Segoe UI', serif;
+      background: linear-gradient(135deg, #2d1a11 0%, #4a2a1a 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(rgba(255,215,180,0.1) 2px, transparent 2px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ЭКРАН СЕРДЦА */
+    .heart-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #ffb7b2 0%, #e07a5f 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      cursor: pointer;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s ease;
+      backdrop-filter: blur(8px);
+      touch-action: manipulation;
+    }
+
+    .heart-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .heart-container {
+      text-align: center;
+      animation: float 2s ease-in-out infinite;
+      padding: 20px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .big-heart {
+      font-size: 130px;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
+      transition: transform 0.2s ease;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .big-heart:active {
+      transform: scale(0.95);
+    }
+
+    .heart-text {
+      font-size: 18px;
+      color: white;
+      margin-top: 25px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      font-family: -apple-system, 'Segoe UI', cursive;
+      max-width: 260px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      animation: pulse 2s infinite;
+      pointer-events: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+      100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; }
+    }
+
+    /* ОСНОВНОЙ КОНТЕНТ */
+    .main-content {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1s ease, visibility 1s ease;
+      width: 100%;
+      max-width: 550px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .main-content.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* КАРТОЧКА */
+    .wedding-card {
+      background: #fffef7;
+      border-radius: 48px;
+      overflow: hidden;
+      box-shadow: 0 30px 50px -15px rgba(0,0,0,0.4);
+      transform: translateY(20px);
+      animation: slideUp 0.7s ease forwards;
+    }
+
+    @keyframes slideUp {
+      to { transform: translateY(0); }
+    }
+
+    .hero {
+      background: linear-gradient(125deg, #f3cfb3 0%, #f5e2ce 100%);
+      padding: 30px 20px 25px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "❤";
+      font-size: 160px;
+      position: absolute;
+      bottom: -40px;
+      right: -25px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .wedding-icon {
+      font-size: 40px;
+      animation: bounce 2s ease infinite;
+      display: inline-block;
+    }
+
+    @keyframes bounce {
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-6px); }
+    }
+
+    .hero h1 {
+      font-size: 1.5rem;
+      color: #6b3a24;
+      font-weight: 400;
+      letter-spacing: 3px;
+      margin: 10px 0 5px;
+    }
+
+    .couple {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #a5482b;
+      margin: 8px 0;
+      text-shadow: 1px 1px 0 #f0cfb3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .couple span {
+      background: rgba(255,245,235,0.8);
+      padding: 0 8px;
+      border-radius: 50px;
+    }
+
+    .date {
+      font-size: 1.1rem;
+      color: #8b4a2c;
+      background: #ffffffc9;
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 50px;
+      margin-top: 15px;
+    }
+
+    /* Таймер */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0 5px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-item {
+      background: #fff0e4;
+      padding: 6px 12px;
+      border-radius: 40px;
+      min-width: 65px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .countdown-number {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #c05a35;
+      display: block;
+      line-height: 1.2;
+    }
+
+    .countdown-label {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #9b6a50;
+    }
+
+    .content {
+      padding: 20px 18px 15px;
+    }
+
+    .invite-text {
+      background: #fff5ea;
+      padding: 18px 14px;
+      border-radius: 35px;
+      text-align: center;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: #4b2d1c;
+      font-style: italic;
+      margin-bottom: 20px;
+      border-left: 3px solid #e7a571;
+      border-right: 3px solid #e7a571;
+    }
+
+    .form-section {
+      background: #faf0e6;
+      border-radius: 35px;
+      padding: 16px 12px 16px;
+      margin-top: 10px;
+    }
+
+    .form-section h2 {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #a04523;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .form-section h2::before,
+    .form-section h2::after {
+      content: "✿";
+      font-size: 1rem;
+      color: #df8e63;
+    }
+
+    .form-container {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      height: 520px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 520px;
+      border: none;
+      display: block;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .fallback-link {
+      text-align: center;
+      margin: 12px 0 4px;
+    }
+
+    .fallback-link a {
+      color: #c2653a;
+      text-decoration: none;
+      border-bottom: 1px dotted;
+      font-size: 0.8rem;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 14px;
+      font-size: 0.7rem;
+      color: #b28b70;
+      border-top: 1px solid #eedbcb;
+      margin-top: 12px;
+    }
+
+    /* Мелкие телефоны */
+    @media (max-width: 480px) {
+      .big-heart { font-size: 110px; }
+      .heart-text { font-size: 16px; max-width: 220px; }
+      .couple { font-size: 1.8rem; gap: 8px; }
+      .hero h1 { font-size: 1.2rem; }
+      .date { font-size: 0.95rem; padding: 6px 16px; }
+      .countdown-item { min-width: 55px; padding: 5px 8px; }
+      .countdown-number { font-size: 1.1rem; }
+      .form-container { height: 480px; }
+      iframe { height: 480px; }
+    }
+
+    @media (max-width: 380px) {
+      .form-container { height: 450px; }
+      iframe { height: 450px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ЭКРАН СЕРДЦА -->
+<div class="heart-screen" id="heartScreen">
+  <div class="heart-container">
+    <div class="pulse-ring"></div>
+    <div class="big-heart" id="clickHeart">❤️</div>
+    <div class="heart-text">Нажми на сердце, чтобы открыть приглашение ✨</div>
+  </div>
+</div>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<div class="main-content" id="mainContent">
+  <div class="wedding-card">
+    <div class="hero">
+      <div class="wedding-icon">💍</div>
+      <h1>Свадебное приглашение</h1>
+      <div class="couple">
+        <span>Данил</span> 
+        <span style="font-size: 1.6rem;">&</span> 
+        <span>Татьяна</span>
+      </div>
+      <div class="date">📅 2 июня 2026 года</div>
+
+      <div class="countdown" id="countdown">
+        <div class="countdown-item"><span class="countdown-number" id="days">00</span><span class="countdown-label">дней</span></div>
+        <div class="countdown-item"><span class="countdown-number" id="hours">00</span><span class="countdown-label">часов</span></div>
+        <div class="countdown-item"><span class="countdown-number" id="minutes">00</span><span class="countdown-label">минут</span></div>
+        <div class="countdown-item"><span class="countdown-number" id="seconds">00</span><span class="countdown-label">секунд</span></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="invite-text">
+        💕 Дорогие наши гости! 💕<br><br>
+        Мы будем счастливы разделить этот важный день в нашей жизни именно с вами. 
+        Пожалуйста, ответьте на несколько вопросов — это поможет нам сделать праздник ещё уютнее и комфортнее для всех.
+      </div>
+
+      <div class="form-section">
+        <h2>Форма подтверждения</h2>
+        <div class="form-container">
+          <iframe 
+            src="https://forms.yandex.ru/u/6a0f0518eb6146930fe0fbb7?iframe=1" 
+            frameborder="0" 
+            name="ya-form-6a0f0518eb6146930fe0fbb7" 
+            style="width:100%; height:100%;"
+            title="Опрос для гостей Данила и Татьяны"
+            scrolling="yes">
+          </iframe>
+        </div>
+        <div class="fallback-link">
+          🌸 <a href="https://forms.yandex.ru/u/6a0f0518eb6146930fe0fbb7?iframe=1" target="_blank">Открыть форму в новом окне</a> 🌸
+        </div>
+      </div>
+
+      <div class="footer">
+        ✨ Ждём вас с нетерпением! ✨<br>
+        <span style="font-size:0.7rem;">Ваши Данил и Татьяна ♡</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const heartScreen = document.getElementById('heartScreen');
+  const mainContent = document.getElementById('mainContent');
+  const clickHeart = document.getElementById('clickHeart');
+
+  function showInvitation(e) {
+    if (heartScreen.classList.contains('hide')) return;
+    
+    heartScreen.classList.add('hide');
+    mainContent.classList.add('show');
+    
+    if (clickHeart) {
+      clickHeart.style.transform = 'scale(0.9)';
+      setTimeout(() => { clickHeart.style.transform = ''; }, 150);
+    }
+    
+    // Лёгкая вибрация на телефоне (приятный тактильный отклик)
+    if (window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(30);
+    }
+  }
+
+  // Поддержка и клика, и касания на телефоне
+  heartScreen.addEventListener('click', showInvitation);
+  heartScreen.addEventListener('touchstart', showInvitation);
+  
+  clickHeart.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showInvitation();
+  });
+  clickHeart.addEventListener('touchstart', (e) => {
+    e.stopPropagation();
+    showInvitation();
+  });
+
+  // СЧЁТЧИК ДО 2 ИЮНЯ 2026
+  function updateCountdown() {
+    const weddingDate = new Date(2026, 5, 2, 0, 0, 0);
+    const now = new Date();
+    const diff = weddingDate - now;
+
+    if (diff <= 0) {
+      document.getElementById('days').innerText = '00';
+      document.getElementById('hours').innerText = '00';
+      document.getElementById('minutes').innerText = '00';
+      document.getElementById('seconds').innerText = '00';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (86400000)) / (3600000));
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+    document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+    document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+    document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>
