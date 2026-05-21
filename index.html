@@ -131,7 +131,6 @@
       visibility: visible;
     }
 
-    /* КАРТОЧКА */
     .wedding-card {
       background: #fffef7;
       border-radius: 48px;
@@ -211,7 +210,6 @@
       margin-top: 15px;
     }
 
-    /* Таймер */
     .countdown {
       display: flex;
       justify-content: center;
@@ -288,11 +286,14 @@
       color: #df8e63;
     }
 
+    /* КЛЮЧЕВОЕ: КОНТЕЙНЕР С ПРОКРУТКОЙ */
     .form-container {
       background: white;
       border-radius: 28px;
-      overflow: hidden;
-      height: 520px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      max-height: 520px;
     }
 
     iframe {
@@ -300,6 +301,7 @@
       height: 520px;
       border: none;
       display: block;
+      overflow: auto;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -324,7 +326,22 @@
       margin-top: 12px;
     }
 
-    /* Мелкие телефоны */
+    /* ПОДСКАЗКА ДЛЯ ПОЛЬЗОВАТЕЛЕЙ ТЕЛЕФОНОВ */
+    .scroll-tip {
+      text-align: center;
+      font-size: 0.65rem;
+      color: #c29271;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .scroll-tip span {
+      font-size: 0.8rem;
+    }
+
     @media (max-width: 480px) {
       .big-heart { font-size: 110px; }
       .heart-text { font-size: 16px; max-width: 220px; }
@@ -333,12 +350,12 @@
       .date { font-size: 0.95rem; padding: 6px 16px; }
       .countdown-item { min-width: 55px; padding: 5px 8px; }
       .countdown-number { font-size: 1.1rem; }
-      .form-container { height: 480px; }
+      .form-container { max-height: 480px; }
       iframe { height: 480px; }
     }
 
     @media (max-width: 380px) {
-      .form-container { height: 450px; }
+      .form-container { max-height: 450px; }
       iframe { height: 450px; }
     }
   </style>
@@ -378,8 +395,8 @@
     <div class="content">
       <div class="invite-text">
         💕 Дорогие наши гости! 💕<br><br>
-        Мы будем счастливы разделить этот важный день в нашей жизни именно с вами. 
-        Пожалуйста, ответьте на несколько вопросов — это поможет нам сделать праздник ещё уютнее и комфортнее для всех.
+        Мы будем счастливы разделить этот важный день с вами. 
+        Пожалуйста, ответьте на несколько вопросов — это поможет нам сделать праздник ещё уютнее.
       </div>
 
       <div class="form-section">
@@ -389,10 +406,13 @@
             src="https://forms.yandex.ru/u/6a0f0518eb6146930fe0fbb7?iframe=1" 
             frameborder="0" 
             name="ya-form-6a0f0518eb6146930fe0fbb7" 
-            style="width:100%; height:100%;"
+            style="width:100%; height:100%; overflow: auto;"
             title="Опрос для гостей Данила и Татьяны"
             scrolling="yes">
           </iframe>
+        </div>
+        <div class="scroll-tip">
+          <span>👇</span> Листайте форму внутри окна <span>👇</span>
         </div>
         <div class="fallback-link">
           🌸 <a href="https://forms.yandex.ru/u/6a0f0518eb6146930fe0fbb7?iframe=1" target="_blank">Открыть форму в новом окне</a> 🌸
@@ -423,13 +443,11 @@
       setTimeout(() => { clickHeart.style.transform = ''; }, 150);
     }
     
-    // Лёгкая вибрация на телефоне (приятный тактильный отклик)
     if (window.navigator && window.navigator.vibrate) {
       window.navigator.vibrate(30);
     }
   }
 
-  // Поддержка и клика, и касания на телефоне
   heartScreen.addEventListener('click', showInvitation);
   heartScreen.addEventListener('touchstart', showInvitation);
   
@@ -442,7 +460,6 @@
     showInvitation();
   });
 
-  // СЧЁТЧИК ДО 2 ИЮНЯ 2026
   function updateCountdown() {
     const weddingDate = new Date(2026, 5, 2, 0, 0, 0);
     const now = new Date();
